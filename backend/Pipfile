@@ -12,6 +12,7 @@ python-decouple = "*"
 flask-restx = "*"
 mysqlclient = "*"
 flask-migrate = "*"
+flask-cors = "*"
 
 [dev-packages]
 

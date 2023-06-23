@@ -1,6 +1,15 @@
+from flask import request, jsonify
+from flask_restx import Resource, fields, Namespace, marshal
+from flask_jwt_extended import jwt_required
 
-# MODEL SERIALIZER
-blog_model = api.model(
+from models import Blog
+
+
+# ESTABLISH Blog NAMESPACE
+blog_ns = Namespace('blog', description='Namespace for blog')
+
+# MODEL SERIALIZER (INTERFACE FOR REQUEST / RESPONSE - NOT STRICTLY ENFORCED)
+blog_model = blog_ns.model(
     "Blog",
     {
         "id": fields.Integer(),
@@ -10,16 +19,21 @@ blog_model = api.model(
     }
 )
 
-@api.route('/blogs')
+@blog_ns.route('/test')
+class TestResource(Resource):
+    def get(self):
+        return jsonify({"message": "Test received"})
+
+@blog_ns.route('/blogs')
 class BlogResource(Resource):
-    @api.marshal_list_with(blog_model)
+    @blog_ns.marshal_list_with(blog_model)
     def get(self):
         '''GET ALL RECIPES'''
         blog_items = Blog.query.all()
         return blog_items
 
-    @api.expect(blog_model)
-    @api.marshal_with(blog_model)
+    @blog_ns.expect(blog_model)
+    @blog_ns.marshal_with(blog_model)
     @jwt_required()
     def post(self):
         '''POST NEW RECIPE'''
@@ -31,30 +45,30 @@ class BlogResource(Resource):
         )
 
         new_blog.add()
-        return new_blog, 201
+        return marshal(new_blog, blog_model), 201
 
-@api.route('/blog/<int:id>')
+@blog_ns.route('/blog/<int:id>')
 class BlogResource(Resource):
-    @api.marshal_with(blog_model)
+    @blog_ns.marshal_with(blog_model)
     @jwt_required()
     def get(self, id):
         '''GET ONE RECIPE BY ID'''
         blog = Blog.query.get_or_404(id)
-        return blog
+        return marshal(blog, blog_model), 200
 
-    @api.marshal_with(blog_model)
+    @blog_ns.marshal_with(blog_model)
     @jwt_required()
     def put(self, id):
         '''UPDATE RECIPE BY ID'''
         blog_to_update = Blog.query.get_or_404(id)
         data = request.get_json()
         blog_to_update.update(data.get('title'), data.get('content'))
-        return blog_to_update, 204
-    
-    @api.marshal_with(blog_model)
+        return marshal(blog_to_update, blog_model), 204
+
+    @blog_ns.marshal_with(blog_model)
     @jwt_required()
     def delete(self, id):
         '''DELETE RECIPE BY ID'''
         blog_to_delete = Blog.query.get_or_404(id)
         blog_to_delete.delete()
-        return jsonify({"message": "Item deleted successfully"}), 204
+        return marshal(jsonify({"message": "Item deleted successfully"}), blog_model), 204

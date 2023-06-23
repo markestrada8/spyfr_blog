@@ -1,29 +1,37 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_restx import Api, Resource, fields
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required
+from flask_restx import Api
+from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
-from exts import db
-from config import DevConfig
+from extensions import db
+from config import DevConfig, TestConfig
 from models import Blog, User
+from auth import auth_ns
+from blog import blog_ns
 
-app = Flask(__name__)
+def create_app(config):
 
-app.config.from_object(DevConfig())
+    app = Flask(__name__)
 
-db.init_app(app)
+    app.config.from_object(config)
+    if config != TestConfig:
+        db.init_app(app)
 
-migrate = Migrate(app, db)
-JWTManager(app)
+    CORS(app)
 
-api = Api(app, doc='/docs')
+    migrate = Migrate(app, db)
+    JWTManager(app)
 
+    api = Api(app, doc='/docs')
 
-@app.shell_context_processor
-def make_shell_context():
-    return {"db": db, "Blog": Blog, "User": User}
+    # INCORPORATE ROUTE/CONTROLLERS
+    api.add_namespace(blog_ns)
+    api.add_namespace(auth_ns)
 
-if __name__ == '__main__':
-    app.run()
+    @app.shell_context_processor
+    def make_shell_context():
+        return {"db": db, "Blog": Blog, "User": User}
+
+    return app
