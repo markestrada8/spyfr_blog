@@ -77,11 +77,11 @@ class Login(Resource):
             return {"message": f"User {email} has not been created"}, 404
 
         if (check_password_hash(existing_user.password, password)):
-            acccess_token = create_access_token(identity=existing_user.email)
+            access_token = create_access_token(identity=existing_user.email)
             refresh_token = create_refresh_token(identity=existing_user.email)
             return marshal({
                 "message": f"User {email} has been logged in successfully",
-                "access_token": acccess_token,
+                "access_token": access_token,
                 "refresh_token": refresh_token
                 }, auth_response), 200
         else:

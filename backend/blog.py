@@ -19,6 +19,13 @@ blog_model = blog_ns.model(
     }
 )
 
+blog_message_response_model = blog_ns.model(
+    "Blog Message Response",
+    {
+        "message": fields.String(),
+    }
+)
+
 @blog_ns.route('/test')
 class TestResource(Resource):
     def get(self):
@@ -28,7 +35,8 @@ class TestResource(Resource):
 class BlogResource(Resource):
     @blog_ns.marshal_list_with(blog_model)
     def get(self):
-        '''GET ALL RECIPES'''
+        '''GET ALL BLOGS'''
+        # print('Request headers: ', request.headers)
         blog_items = Blog.query.all()
         return blog_items
 
@@ -36,7 +44,7 @@ class BlogResource(Resource):
     @blog_ns.marshal_with(blog_model)
     @jwt_required()
     def post(self):
-        '''POST NEW RECIPE'''
+        '''POST NEW BLOG'''
         data = request.get_json()
 
         new_blog = Blog(
@@ -49,26 +57,31 @@ class BlogResource(Resource):
 
 @blog_ns.route('/blog/<int:id>')
 class BlogResource(Resource):
+    # @blog_ns.expect(blog_model)
     @blog_ns.marshal_with(blog_model)
-    @jwt_required()
+    # @jwt_required()
     def get(self, id):
-        '''GET ONE RECIPE BY ID'''
+        '''GET ONE BLOG BY ID'''
         blog = Blog.query.get_or_404(id)
         return marshal(blog, blog_model), 200
 
-    @blog_ns.marshal_with(blog_model)
+    # @blog_ns.expect(blog_model)
+    @blog_ns.marshal_with(blog_message_response_model)
     @jwt_required()
     def put(self, id):
-        '''UPDATE RECIPE BY ID'''
+        '''UPDATE BLOG BY ID'''
         blog_to_update = Blog.query.get_or_404(id)
         data = request.get_json()
         blog_to_update.update(data.get('title'), data.get('content'))
-        return marshal(blog_to_update, blog_model), 204
+        response_data = Blog.query.get_or_404(id)
+
+        return marshal({"message": "Blog updated successfully"}, blog_message_response_model), 200
 
     @blog_ns.marshal_with(blog_model)
     @jwt_required()
     def delete(self, id):
-        '''DELETE RECIPE BY ID'''
+        '''DELETE BLOG BY ID'''
         blog_to_delete = Blog.query.get_or_404(id)
         blog_to_delete.delete()
-        return marshal(jsonify({"message": "Item deleted successfully"}), blog_model), 204
+
+        return marshal({"message": "Blog deleted successfully"}, blog_message_response_model), 200

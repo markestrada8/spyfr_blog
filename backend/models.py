@@ -16,7 +16,7 @@ class Blog(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return f'<Recipe {self.title}'
+        return f'<Blog {self.title}>'
 
     def add(self):
         db.session.add(self)

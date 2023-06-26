@@ -14,6 +14,7 @@ class ProdConfig(Config):
     pass
 
 class TestConfig(Config):
+    # ALSO NEED TO SET AUTH CREDENTIALS SETTINGS PROBABLY
     SQLALCHEMY_DATABASE_URI=config('TEST_URI')
     SQLALCHEMY_ECHO=False
     TESTING=True

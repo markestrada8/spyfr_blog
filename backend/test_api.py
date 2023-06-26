@@ -141,7 +141,7 @@ class APITestCase(unittest.TestCase):
             'content': 'This is the updated content of the blog.'
         }
         response = self.client.put(f'/blog/blog/{blog_id}', json=data, headers={'Authorization':f'Bearer {access_token}'})
-        assert response.status_code == 204
+        assert response.status_code == 200
 
 
     def test_delete_blog_by_id(self):
@@ -173,7 +173,7 @@ class APITestCase(unittest.TestCase):
         }
         blog_id = 1
         response = self.client.delete(f'/blog/blog/{blog_id}', headers={'Authorization':f'Bearer {access_token}'})
-        assert response.status_code == 204
+        assert response.status_code == 200
 
 
     def tearDown(self):

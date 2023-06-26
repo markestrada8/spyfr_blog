@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { login } from '../auth'
 
 const Login = () => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm()
   const navigate = useNavigate()
 
   const submitForm = (data) => {
@@ -20,7 +20,7 @@ const Login = () => {
     fetch('/auth/login', requestOptions)
       .then((response) => response.json())
       .then(result => {
-        // console.log(result)
+        console.log(result)
         login(result.access_token)
       })
       .catch((error) => {
