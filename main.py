@@ -13,7 +13,7 @@ from blog import blog_ns
 
 def create_app(config):
 
-    app = Flask(__name__, static_url_path='/', static_folder='./frontend/client')
+    app = Flask(__name__, static_url_path='/', static_folder='./client/build')
 
     app.config.from_object(config)
     if config != TestConfig:
@@ -35,7 +35,7 @@ def create_app(config):
         return app.send_static_file('index.html')
 
     @app.errorhandler(404)
-    def not_found(err):
+    def page_not_found(err):
         return app.send_static_file('index.html')
 
     @app.shell_context_processor
