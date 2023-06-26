@@ -13,6 +13,7 @@ flask-restx = "*"
 mysqlclient = "*"
 flask-migrate = "*"
 flask-cors = "*"
+gunicorn = "*"
 
 [dev-packages]
 
