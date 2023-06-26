@@ -12,10 +12,10 @@ class DevConfig(Config):
     SQLALCHEMY_ECHO=True
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI", "sqlite:///prod.db")
-    DEBUG = os.getenv("DEBUG", False)
-    SQLALCHEMY_ECHO = os.getenv("ECHO", False)
-    SQLALCHEMY_TRACK_MODIFICATIONS = os.getenv("SQLALCHEMY_TRACK_MODIFICATIONS", False)
+    SQLALCHEMY_DATABASE_URI="sqlite:///dev.db"
+    DEBUG = config("DEBUG", cast=bool)
+    SQLALCHEMY_ECHO = config("ECHO")
+    SQLALCHEMY_TRACK_MODIFICATIONS = config("SQLALCHEMY_TRACK_MODIFICATIONS", cast=bool)
 
 class TestConfig(Config):
     # ALSO NEED TO SET AUTH CREDENTIALS SETTINGS PROBABLY
