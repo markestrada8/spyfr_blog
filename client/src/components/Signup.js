@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import Alert from 'react-bootstrap/Alert'
 
 const Signup = () => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm()
+  const { register, handleSubmit, reset, formState: { errors } } = useForm()
   const [show, setShow] = useState(false)
   const [serverResponse, setserverResponse] = useState('')
 

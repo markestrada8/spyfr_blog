@@ -7,28 +7,30 @@ import Signup from './components/Signup'
 import BlogForm from './components/BlogForm'
 
 const App = () => {
-  // const [message, setMessage] = useState('message')
+  const [blogs, setBlogs] = useState([])
 
-  // useEffect(() => {
-  //   fetch('/blog/test')
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data)
-  //       setMessage(data.message)
-  //     })
-  //     .catch(err => console.error(err))
+  const getBlogs = () => {
+    fetch('/blog/blogs')
+      .then(response => response.json())
+      .then(result => {
+        // console.log('Get posts response: ', result)
+        setBlogs(result)
+      })
+  }
 
-  // }, [])
+  useEffect(() => {
+    getBlogs()
+  }, [])
 
 
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Home getBlogs={getBlogs} blogs={blogs} setBlogs={setBlogs} />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-        <Route path='/blogform' element={<BlogForm />} />
+        <Route path='/blogform' element={<BlogForm getBlogs={getBlogs} blogs={blogs} setBlogs={setBlogs} />} />
       </Routes>
     </>
   )

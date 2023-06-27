@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { authFetch } from '../auth'
 
-const BlogForm = ({ editMode, id, closeModal }) => {
+const BlogForm = ({ editMode, id, closeModal, getBlogs }) => {
   // const [blogToEdit, setBlogToEdit] = useState({})
   // const [titleToUpdate, setTitleToUpdate] = useState('')
   // const [contentToUpdate, setContentToUpdate] = useState('')
@@ -31,11 +31,12 @@ const BlogForm = ({ editMode, id, closeModal }) => {
         return response.json()
       })
       .then(result => {
-        // console.log('Blog form submit result: ', result)
+        console.log('Blog form submit result: ', result)
+        getBlogs()
         reset()
       })
       .catch((error) => {
-        console.log('Blog post error: ', error)
+        console.log('Blog form submit error: ', error)
       })
     if (editMode) {
       closeModal()

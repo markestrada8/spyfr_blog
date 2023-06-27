@@ -13,12 +13,12 @@ class DevConfig(Config):
 
 class ProdConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///dev.db"
-    # DEBUG = config("DEBUG", cast=bool)
-    # SQLALCHEMY_ECHO = config("ECHO", cast=bool)
-    # SQLALCHEMY_TRACK_MODIFICATIONS = config("SQLALCHEMY_TRACK_MODIFICATIONS", cast=bool)
-    DEBUG = False
-    SQLALCHEMY_ECHO = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DEBUG = config("DEBUG", cast=bool)
+    SQLALCHEMY_ECHO = config("ECHO", cast=bool)
+    SQLALCHEMY_TRACK_MODIFICATIONS = config("SQLALCHEMY_TRACK_MODIFICATIONS", cast=bool)
+    # DEBUG = False
+    # SQLALCHEMY_ECHO = False
+    # SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class TestConfig(Config):
     # ALSO NEED TO SET AUTH CREDENTIALS SETTINGS PROBABLY

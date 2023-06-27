@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth'
 import BlogItem from './BlogItem'
@@ -10,28 +10,11 @@ import '../styles/main.css'
 
 
 
-const Home = () => {
-  const [blogs, setBlogs] = useState([])
+const Home = ({ getBlogs, blogs }) => {
+
   const [blogId, setBlogId] = useState('')
   const [displayModal, setDisplayModal] = useState(false)
   const [isLoggedIn] = useAuth()
-
-
-  const getBlogs = () => {
-    fetch('/blog/blogs')
-      .then(response => response.json())
-      .then(result => {
-        // console.log('Get posts response: ', result)
-        setBlogs(result)
-      })
-  }
-
-
-  useEffect(() => {
-
-    getBlogs()
-
-  }, [])
 
 
   const closeModal = () => {
@@ -82,7 +65,7 @@ const Home = () => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <BlogForm editMode={true} id={blogId} closeModal={closeModal} />
+            <BlogForm editMode={true} id={blogId} closeModal={closeModal} getBlogs={getBlogs} />
           </Modal.Body>
         </Modal>
         <h1>Blog Entries</h1>

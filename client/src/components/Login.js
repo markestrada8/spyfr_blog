@@ -20,7 +20,7 @@ const Login = () => {
     fetch('/auth/login', requestOptions)
       .then((response) => response.json())
       .then(result => {
-        console.log(result)
+        // console.log(result)
         login(result.access_token)
       })
       .catch((error) => {
