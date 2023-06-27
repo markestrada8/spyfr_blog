@@ -32,7 +32,7 @@ const Login = () => {
   return (
     <div className='container'>
       <div className='form'>
-        <h1>Login</h1>
+        <h1>Log in</h1>
         <form>
           <br />
           <Form.Group>

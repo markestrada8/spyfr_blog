@@ -18,7 +18,7 @@ const Navbar = () => {
           <Link to='/blogform' className="nav-link active">New Entry</Link>
         </li>
         <li className="nav-item">
-          <Link to='/' className="nav-link active" onClick={logout}>Logout</Link>
+          <Link to='/' className="nav-link active" onClick={logout}>Log out</Link>
         </li>
       </>
     )

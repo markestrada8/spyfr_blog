@@ -105,7 +105,7 @@ const Signup = () => {
             <Button as='sub' variant='primary' onClick={handleSubmit(submitForm)}>Signup</Button>
           </Form.Group>
           <Form.Group>
-            <small>Already have an account? <Link to='/login'>Login</Link></small>
+            <small>Already have an account? <Link to='/login'>Log in</Link></small>
           </Form.Group>
         </form>
       </div>
